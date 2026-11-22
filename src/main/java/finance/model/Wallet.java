@@ -3,7 +3,11 @@ package finance.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public final class Wallet implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -64,7 +68,10 @@ public final class Wallet implements Serializable {
         operations.stream().filter(operation -> operation.getType() == type)
                 .forEach(operation -> totals.merge(operation.getCategory(), operation.getAmount(), BigDecimal::add));
         totals.entrySet().stream().filter(entry -> matches(selected, entry.getKey())).sorted(Map.Entry.comparingByKey())
-                .forEach(entry -> report.append(entry.getKey()).append(": ").append(Money.format(entry.getValue())).append(System.lineSeparator()));
+                .forEach(entry -> report.append(entry.getKey())
+                        .append(": ")
+                        .append(Money.format(entry.getValue()))
+                        .append(System.lineSeparator()));
     }
 
     private boolean matches(List<String> selected, String category) {

@@ -11,7 +11,11 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Scanner;
 
 public final class FinanceCli {
     private final Scanner input = new Scanner(System.in);
@@ -214,7 +218,9 @@ public final class FinanceCli {
                 selected.add(args.get(index));
             }
         }
-        String content = "Пользователь: " + currentUser.getLogin() + System.lineSeparator() + currentUser.getWallet().createReport(selected);
+        String content = "Пользователь: " + currentUser.getLogin()
+                + System.lineSeparator()
+                + currentUser.getWallet().createReport(selected);
         if (filename == null) {
             System.out.print(content);
         } else {
@@ -228,7 +234,9 @@ public final class FinanceCli {
     private void alerts(String categoryName) {
         if (categoryName != null) {
             Category category = currentUser.getWallet().getCategories().get(categoryName);
-            if (category != null && category.getBudget() != null && currentUser.getWallet().amountByCategory(OperationType.EXPENSE, categoryName).compareTo(category.getBudget()) > 0) {
+            if (category != null && category.getBudget() != null
+                    && currentUser.getWallet().amountByCategory(OperationType.EXPENSE, categoryName)
+                    .compareTo(category.getBudget()) > 0) {
                 println("Внимание: превышен бюджет категории «" + categoryName + "»!");
             }
         }
